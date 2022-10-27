@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.0/dist/quartz/bootstrap.min.css">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+</head>
+<body>
+
+
+
+
+<div class="container">
+  <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+    <div class="container-fluid"><div class="navbar-nav">
+      <a class="navbar-brand" href="/">Date4u</a>
+      <a class="nav-item nav-link" href="/">Home</a>
+      <a class="nav-link nav-item" th:if="${moveToUser != null }" th:href="@{/profile/}+${moveToUser}">Profile</a>
+      <a class="nav-link nav-item" th:if="${moveToUser != null }" href="/search">Search</a>
+      <!--            <a class="nav-link nav-item" th:if="${moveToUser != null }" href="login">Create Profile</a>-->
+      <a class="nav-link nav-item" th:if="${moveToUser == null }" href="/register">Register</a>
+      <a class="nav-link nav-item" th:if="${moveToUser == null }" href="/login">Login</a>
+      <a class="nav-link nav-item" th:if="${moveToUser != null }" href="/logout">Logout</a>
+    </div></div>
+  </nav>
+</div>
+</div>
+
+<div class="d-flex flex-wrap justify-content-center"  style="padding-top: 50px">
+  <form th:action="search">
+    <h1>Just do it...</h1>
+<!--    Nickname:-->
+<!--    <input type="text" name="keyword"/>-->
+<!--    <input type="number" name="gender"/>-->
+    <div style="display: inline-block">
+    <select type="number" name="gender" class="form-select"  style="width: 150px; display: inline-block" >
+      <option selected value="">Gender</option>
+      <option value=0>Male</option>
+      <option value=1>Female</option>
+      <option value=2>Diversity</option>
+    </select>
+      <input type="number" name="min" class="form-control" placeholder="Min. Hornlength"  style="width: 200px; display: inline-block">
+      <input type="number" name="max" class="form-control" placeholder="Max. Hornlength"  style="width: 200px; display: inline-block">
+      <input type="text" name="minAge" class="form-control" placeholder="Min. Age"  style="width: 200px; display: inline-block">
+      <input type="text" name="maxAge" class="form-control" placeholder="Max. Age"  style="width: 200px; display: inline-block">
+    </div>
+<!--    MinHornLength-->
+<!--    <input type="number" name="min" />-->
+<!--    MaxHornLength-->
+<!--    <input type="number" name="max" />-->
+
+
+
+<!--    MinAge-->
+<!--    <input type="text" name="minAge" th:value="*{minAge}"  />-->
+<!--    MaxAge-->
+<!--    <input type="text" name="maxAge" th:value="*{maxAge}" />-->
+    <button type="submit" value="Search" class="btn btn-primary">Search</button>
+    <button type="button" class="btn btn-primary" value="Clear" onclick="clearSearch()">Clear</button>
+<!--    <input type="submit" value="Search"/>-->
+<!--    <input type="button" value="Clear" onclick="clearSearch()"/>-->
+  </form>
+
+
+
+<div class="d-flex flex-wrap justify-content-center">
+  <div th:each="p, ph: ${profilesWithAge}" th:field="${p}"class="m-2">
+    <div class="card mb-2" style="width:300px;">
+      <h3 class="card-header" th:text="${p.nickname}">Card header</h3>
+<!--      <img class="d-block w-100" th:src="@{/images/${id}.jpg(id=${singlePhoto})}"></div>-->
+<!--      <img data-th-src="@{/images/}+${photos.id}">-->
+<!--      <div class="card-body"><p class="card-text" th:text="'Alter: '+${p.age}+' Jahre'">age</p>-->
+      <td style="text-align: center">
+        <a th:href="@{/profile/{id}(id=${p.id})}" style="color: white"></a>
+<!--          <img th:src="@{/images/{picId}.jpg(picId=${photos[__${ph .index}__].name})}" style="height: 50px;width: 50px;"class="rounded-circle">-->
+        <img th:src="|/api/photos/${p.getProfilePicture().name}|">
+<!--          <img th:src="@{/images/}+${photos}" style="height: 50px;width: 50px;"-->
+<!--               -->
+<!--          th:src="@{/api/photo/}+${photo}"-->
+<!--        -->
+
+        <p class="card-text" th:text="'Hornlänge: '+${p.hornlength}+' cm'"></p>
+<!--        <p class="card-text" th:text="'Gender: '+${p.gender}+' cm'"></p>-->
+        <p class="card-subtitle" >Beschreibung:</p>
+        <p class="card-text" th:text="${p.description}">Description</p>
+        <a data-th-href="@{/profile/}+${p.id}" class="card-link">Zum Profil</a>
+      <div class="card-footer text-muted" th:text="'Zuletzt Online:'+${#temporals.format(p.lastseen, 'dd.MM.yyyy HH:mm')}"></div>
+      </div>
+    </div>
+  </div>
+</div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     th:text="'Zuletzt Online:'+${#temporals.format(p.lastseen, 'dd.MM.yyyy HH:mm')}"></div></div></div></div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         th:text="'Zuletzt Online:'+${#temporals.format(p.lastseen, 'dd.MM.yyyy HH:mm')}"></div></div></div></div>
+<!--<table>-->
+<!--  <thead>-->
+<!--  <tr><th>#</th><th>ID</th><th>Nickname</th><th>Gender</th><th>Hornlange</th><th>Description</th><th>Lastseen</th></tr>-->
+<!--  </thead>-->
+<!--  <tbody>-->
+<!--  <tr data-th-each="profile,it : ${profileAll} ">-->
+<!--    <td data-th-text="${it.count}">COUNTER</td>-->
+<!--    <td data-th-text="${profile.id}">ID</td>-->
+<!--    <td data-th-text="${profile.nickname}">NICKNAME</td>-->
+<!--    <td data-th-text="${profile.gender}">Gender</td>-->
+<!--    <td data-th-text="${profile.hornlength}">Hornlange</td>-->
+<!--    <td data-th-text="${profile.description}">DESCRIPTION</td>-->
+<!--    <td data-th-text="${profile.lastseen}">LastSeen</td>-->
+<!--    <th:block th:each=" profil: ${profile.photos}">-->
+
+<!--&lt;!&ndash;      <td> th:src ="'src/main/resources/static/img/' + ${profil.name}">Picture</td>&ndash;&gt;-->
+
+<!--&lt;!&ndash;      <img th:src ="@{/static/img  ${profil.name}}">&ndash;&gt;-->
+
+<!--    </th:block>-->
+<!--  </tr>-->
+<!--  </tbody>-->
+<!--</table>-->
+
+
+<script type="text/javascript">
+  function clearSearch() {
+    window.location = "[[@{/search}]]"
+  }
+</script>
+</body>
+</html>

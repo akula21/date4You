@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.0/dist/quartz/bootstrap.min.css">
+    <style>
+
+        body { text-align: center; }
+        /* center all items within body, this property is inherited */
+        body > * { text-align: center; }
+        /* left-align the CONTENTS all items within body, additionally
+           you can add this text-align: left property to all elements
+           manually */
+        form { display: inline-block; text-align: center; width: 400px }
+        /* reduces the width of the form to only what is necessary */
+
+        .h1 {
+            text-align: center;
+        }
+
+        .flex-container {
+            display: flex;
+        }
+
+        .flex-child {
+            flex: 1;
+        }
+
+        .flex-child:first-child {
+            margin-right: 20px;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+    <div class="container-fluid"><div class="navbar-nav">
+        <a class="navbar-brand" href="/">Date4u</a>
+        <a class="nav-item nav-link" href="/">Home</a>
+        <a class="nav-link nav-item" th:if="${moveToUser != null }" th:href="@{/profile/}+${moveToUser}">Profile</a>
+        <a class="nav-link nav-item" th:if="${moveToUser != null }" href="/search">Search</a>
+        <!--            <a class="nav-link nav-item" th:if="${moveToUser != null }" href="login">Create Profile</a>-->
+        <a class="nav-link nav-item" th:if="${moveToUser == null }" href="register">Register</a>
+        <a class="nav-link nav-item" th:if="${moveToUser == null }" href="/login">Login</a>
+        <a class="nav-link nav-item" th:if="${moveToUser != null }" href="/logout">Logout</a>
+    </div></div>
+</nav>
+</div>
+
+<h1>Profile page</h1>
+
+<div class="flex-container">
+
+    <div class="flex-child magenta">
+        <form th:action="@{/update}" th:object="${profile}" method="POST">
+            <div class="mb-3">
+                <label class="form-label"> Update your profile to get more S....atisfaction</label>
+                <input class="form-control" th:field = "*{nickname}" type="text"  placeholder="Nickname" aria-label="default input example">
+            </div>
+
+
+
+            <div class="mb-3">
+                <span class="input-group-text">Your birthday:</span>
+                <input type="date" th:value="*{birthdate}" th:field="*{birthdate}" class="form-control">
+            </div>
+
+
+            <div class="mb-3">
+                <span class="input-group-text">Description</span>
+                <textarea placeholder="Tell us more about yourself ;)" th:field ="*{description}" class="form-control" ></textarea>
+            </div>
+
+            <div class="mb-3">
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example" th:field="*{gender}">
+                    <option  value="4" selected>I am...</option>
+                    <option value="0">Male</option>
+                    <option value="1">Female</option>
+                    <option value="2">Diversity</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <select class="form-select form-select-sm" aria-label=".form-select-sm example" th:field="*{attractedToGender}">
+                    <option value="4" selected>I prefer...</option>
+                    <option value="0">Male</option>
+                    <option value="1">Female</option>
+                    <option value="2">Diversity</option>
+                </select>
+            </div>
+
+            <button  type="submit" value="Submit" class="btn btn-primary btn-sm">Submit</button>
+        </form>
+    </div>
+
+
+    <div class="flex-child green">
+
+<!--        <div th:each =" p : ${photos}"  class="carousel item" data-ride="carousel">-->
+<!--            <img class="d-block w-100" th:src="|/api/photos/${p.name}|">-->
+<!--            &lt;!&ndash;                    <img class="d-block w-100" th:src="|/api/photos/${p.name}|">&ndash;&gt;-->
+<!--        </div>-->
+        <div style="height: 350px; width: 350px; border: 1px solid black; text-align: right; margin-left: auto;margin-right: auto; margin-bottom: 25px;">
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img th:src="|/api/photos/${photos.get(0).name}|" class="d-block w-100" alt="...">
+                    </div>
+                    <div th:each =" p : ${photos}" class="carousel-item">
+                        <img th:src="|/api/photos/${p.name}|" class="d-block w-100" alt="...">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+            <div class="input-group mb-3">
+            <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
+                <label class="input-group-text" for="inputGroupFile01">Upload</label>
+                <input type="file" class="form-control" name="image" id="inputGroupFile01">
+                <br>
+                <button  type="submit" value="Submit" class="btn btn-secondary btn-sm">Upload Photo</button>
+            </form>
+        </div>
+                 </div>
+
+
+
+
+<!--            <form method="post" th:action="@{/upload}" enctype="multipart/form-data">-->
+<!--                <div class="form-group">-->
+<!--                    <input type="file" name="image" accept="image/*" class="form-control-file">-->
+<!--                </div>-->
+<!--                    <button  type="submit" value="Submit" class="btn btn-secondary btn-sm">Upload Photo</button>-->
+<!--                    &lt;!&ndash;            <button type="submit" class="btn btn-primary">Upload image</button>&ndash;&gt;-->
+<!--            </form>-->
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+
+
+<!--<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">-->
+<!--    <div class="carousel-inner">-->
+<!--        <div class="carousel-item active" th:each =" p : ${photos}" >-->
+<!--            <img th:src="|/api/photos/${p.name}|" class="d-block w-100" alt="...">-->
+<!--        </div>-->
+<!--        >-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<div style="height: 290px; width: 290px; border: 1px solid black; margin-left: auto;margin-right: auto; margin-bottom: 25px;">-->
+<!--    <div th:each =" p : ${photos}"  class="carousel item" data-ride="carousel">-->
+<!--        <div class="carousel-inner">-->
+<!--                <img class="d-block w-100" th:src="|/api/photos/${p.name}|">-->
+<!--        </div>-->
+<!--        <a class="carousel-control-prev"  role="button" data-slide="prev">-->
+
+<!--            <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
+<!--            <span class="sr-only"></span>-->
+<!--        </a>-->
+<!--        <a class="carousel-control-next"  role="button" data-slide="next">-->
+<!--                <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
+<!--                <span class="sr-only"></span>-->
+<!--        </a>-->
+<!--</div>-->
+<!--</div>-->
