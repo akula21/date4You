@@ -26,7 +26,6 @@ public class WebController {
             } else
                 model.addAttribute("name", " ");
 
-
         model.addAttribute("totalProfiles", profileRepository.count());
 
         model.addAttribute("showSome", profileRepository.findAll().size());

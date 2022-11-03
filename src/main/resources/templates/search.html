@@ -84,7 +84,7 @@
 <!--        <p class="card-text" th:text="'Gender: '+${p.gender}+' cm'"></p>-->
         <p class="card-subtitle" >Beschreibung:</p>
         <p class="card-text" th:text="${p.description}">Description</p>
-        <a data-th-href="@{/profile/}+${p.id}" class="card-link">Zum Profil</a>
+        <a data-th-href="@{/profile/}+${p.id}" class="card-link">See Profile </a>
       <div class="card-footer text-muted" th:text="'Zuletzt Online:'+${#temporals.format(p.lastseen, 'dd.MM.yyyy HH:mm')}"></div>
       </div>
     </div>

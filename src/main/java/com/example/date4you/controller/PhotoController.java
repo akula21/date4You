@@ -76,7 +76,8 @@ public class PhotoController {
 //        photoRepository.save(photo);
 
         model.addAttribute("msg", "Uploaded images: " + filename);
-        return "/index";
+
+        return "redirect:/profile/" +   unicornUser.getpId();
     }
 
 

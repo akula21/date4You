@@ -9,6 +9,5 @@ public interface UnicornService {
 
     void create(Unicorn unicorn);
 
-
     List<Unicorn> getUnicorns();
 }

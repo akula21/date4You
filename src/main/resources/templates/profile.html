@@ -15,9 +15,7 @@
         form { display: inline-block; text-align: center; width: 400px }
         /* reduces the width of the form to only what is necessary */
 
-        .h1 {
-            text-align: center;
-        }
+
 
         .flex-container {
             display: flex;
@@ -36,7 +34,7 @@
 </head>
 <body>
 <div class="container">
-<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark" style=" border-radius: 10px">
     <div class="container-fluid"><div class="navbar-nav">
         <a class="navbar-brand" href="/">Date4u</a>
         <a class="nav-item nav-link" href="/">Home</a>
@@ -50,12 +48,15 @@
 </nav>
 </div>
 
-<h1>Profile page</h1>
+<h1 style="padding-top: 20px; text-align: center">Profile page</h1>
 
 <div class="flex-container">
 
     <div class="flex-child magenta">
-        <form th:action="@{/update}" th:object="${profile}" method="POST">
+        <form th:object="${profile}" th:action="@{/update}" method="POST">
+
+            <input type="hidden" th:field = "*{id}">
+
             <div class="mb-3">
                 <label class="form-label"> Update your profile to get more S....atisfaction</label>
                 <input class="form-control" th:field = "*{nickname}" type="text"  placeholder="Nickname" aria-label="default input example">
@@ -66,6 +67,11 @@
             <div class="mb-3">
                 <span class="input-group-text">Your birthday:</span>
                 <input type="date" th:value="*{birthdate}" th:field="*{birthdate}" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <span class="input-group-text">Your Penis:</span>
+                <input type="number"  th:field="*{hornlength}"  class="form-control">
             </div>
 
 
@@ -110,7 +116,7 @@
                         <img th:src="|/api/photos/${photos.get(0).name}|" class="d-block w-100" alt="...">
                     </div>
                     <div th:each =" p : ${photos}" class="carousel-item">
-                        <img th:src="|/api/photos/${p.name}|" class="d-block w-100" alt="...">
+                        <img th:src="|/api/photos/${p.name}|" class="d-block w-100">
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">

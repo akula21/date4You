@@ -92,14 +92,10 @@ public class ProfileController {
     }
 
 
-    @RequestMapping(value = { "/profile/{id}" }, method = RequestMethod.GET)
+    @RequestMapping(value = { "/profile/{id}",  }, method = RequestMethod.GET)
     public String showProfile(@PathVariable Long id, Model model, Authentication auth, Principal principal){
 
-
-
         Optional<Profile> maybeProfile = profileRepository.findById(id);
-
-//        if (!maybeProfile.isPresent())  return "redirect:/";
 
         model.addAttribute("user", unicornRepository.findByEmail(principal.getName()).get().getProfile().getId());
 
@@ -134,8 +130,6 @@ public class ProfileController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String updateProfile(@ModelAttribute("profile") Profile profile) {
 
-//        Optional<Profile> profileNew = profileRepository.findById(id);
-
         profile.setId(profile.getId());
         profile.setNickname(profile.getNickname());
         profile.setBirthdate(profile.getBirthdate());
@@ -144,6 +138,8 @@ public class ProfileController {
         profile.setAttractedToGender(profile.getAttractedToGender());
         profile.setDescription(profile.getDescription());
         profile.setLastseen(LocalDateTime.parse(LocalDateTime.now().toString()));
+        profile.setUnicorn(profile.getUnicorn());
+
         profileRepository.save(profile);
 
         return "redirect:/profile/" + profile.getId();
