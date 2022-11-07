@@ -22,6 +22,8 @@ public class TesteController {
     @GetMapping(value = "/teste")
     public String getPage(Model model) {
 
+        model.addAttribute("messages", queueConsumer.listMessages());
+
         return "teste";
     }
 
@@ -30,6 +32,7 @@ public class TesteController {
 
         queueSender.send(mess);
 
-        return "teste";
+        return "redirect:/teste";
+
     }
 }
