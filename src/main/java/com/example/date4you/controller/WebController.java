@@ -14,8 +14,6 @@ public class WebController {
     @Autowired
     ProfileRepository profileRepository;
 
-
-
     @RequestMapping( "/"  )
     public String indexPage(Model model, Authentication auth) {
 
@@ -25,6 +23,7 @@ public class WebController {
                 model.addAttribute("moveToUser", user.getpId());
             } else
                 model.addAttribute("name", " ");
+
 
         model.addAttribute("totalProfiles", profileRepository.count());
 
